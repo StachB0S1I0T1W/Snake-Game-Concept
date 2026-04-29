@@ -20,13 +20,20 @@ class Snake:
             print("Sorry, wrong color name!\nPlease try again.")
             self.choose_color = input('Welcome to the Hungry Snake Game!!!\n\n[RED,YELLOW,BLUE,GREEN,PURPLE]\nChoose the color from above to participate: \n').upper()
         self.color_chosen = self.choose_color.lower()
-        for coordinate in COORDINATES:
-            self.snake = Turtle("square")
-            self.snake.shape('square')
-            self.snake.color(f'{self.color_chosen}')
-            self.snake.penup()
-            self.snake.goto(coordinate)
-            self.segments.append(self.snake)
+        for position in COORDINATES:
+            self.add_segments(position) # Appends the parts of the snake to a special list
+
+    def add_segments(self, position):
+        self.snake = Turtle("square")
+        self.snake.shape('square')
+        self.snake.color(f'{self.color_chosen}')
+        self.snake.penup()
+        self.snake.goto(position)
+        self.segments.append(self.snake)
+
+    def extend_snake(self):
+        self.add_segments(self.segments[-1].position()) # Extends the snake whenever it touches the food
+
     def move_snake(self):
         for segment in range(len(self.segments) - 1, 0, -1):
             self.x_cor = self.segments[segment - 1].xcor()
